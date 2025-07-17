@@ -372,6 +372,50 @@
 
     /* 카메라 뷰어 개선 */
     #reader {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: 600px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-secondary);
+      position: relative;
+    }
+
+    /* QR 코드 박스 커스터마이징 */
+    #reader > div {
+      position: relative !important;
+    }
+
+    /* 흰색 초점 박스 스타일링 */
+    #reader > div > div:nth-child(2) {
+      border-color: rgba(255, 255, 255, 0.9) !important;
+      border-width: 3px !important;
+      border-style: solid !important;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #reader.empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--border-color);
+      background: var(--bg-hover);
+    }
+
+    #reader.empty::before {
+      content: '📷';
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+
+    #reader.empty::after {
+      content: '카메라 미리보기';
+      position: absolute;
+      bottom: var(--spacing-md);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
 
     /* 컨트롤 그리드 개선 */
     .controls {
