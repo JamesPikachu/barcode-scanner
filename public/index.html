@@ -2,179 +2,261 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#667eea">
   <title>🌞 바코드 스캐너</title>
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* 다크모드 변수 정의 */
+    /* 라이트모드 기본 변수 */
     :root {
-      --bg-gradient-start: #667eea;
-      --bg-gradient-end: #764ba2;
-      --card-bg: rgba(255,255,255,0.95);
-      --text-primary: #4a5568;
-      --text-secondary: #718096;
+      /* 색상 */
+      --primary-gradient-start: #667eea;
+      --primary-gradient-end: #764ba2;
+      --secondary-gradient-start: #4fc3f7;
+      --secondary-gradient-end: #29b6f6;
+      --success-gradient-start: #66bb6a;
+      --success-gradient-end: #4caf50;
+      --warning-gradient-start: #ffa726;
+      --warning-gradient-end: #ff9800;
+      --danger-gradient-start: #f44336;
+      --danger-gradient-end: #d32f2f;
+      
+      /* 배경색 */
+      --bg-primary: #f7fafc;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.98);
+      --bg-hover: #f1f5f9;
+      --bg-input: #ffffff;
+      --bg-overlay: rgba(0, 0, 0, 0.5);
+      
+      /* 텍스트 색상 */
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --text-inverse: #ffffff;
+      
+      /* 테두리 및 기타 */
       --border-color: #e2e8f0;
-      --input-bg: white;
-      --hover-bg: #f8fafc;
-      --shadow-color: rgba(0,0,0,0.1);
-      --header-text: white;
-      --status-bg: #f8fafc;
-      --table-hover: #f8fafc;
-      --empty-text: #a0aec0;
-      --zoom-slider-bg: #e2e8f0;
-      --zoom-slider-active: #4fc3f7;
+      --border-radius: 16px;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+      
+      /* 애니메이션 */
+      --transition-fast: 150ms;
+      --transition-base: 300ms;
+      --transition-slow: 500ms;
+      
+      /* 간격 */
+      --spacing-xs: 0.5rem;
+      --spacing-sm: 1rem;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
     }
 
+    /* 다크모드 변수 */
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg-gradient-start: #1a202c;
-        --bg-gradient-end: #2d3748;
-        --card-bg: rgba(45, 55, 72, 0.95);
-        --text-primary: #e2e8f0;
-        --text-secondary: #a0aec0;
-        --border-color: #ffffff;
-        --input-bg: #2d3748;
-        --hover-bg: #374151;
-        --shadow-color: rgba(0,0,0,0.3);
-        --header-text: #e2e8f0;
-        --status-bg: #374151;
-        --table-hover: #374151;
-        --empty-text: #718096;
-        --zoom-slider-bg: #ffffff;
-        --zoom-slider-active: #ffffff;
+        /* 색상 - 다크모드에서도 생동감 있게 */
+        --primary-gradient-start: #5a67d8;
+        --primary-gradient-end: #667eea;
+        --secondary-gradient-start: #4299e1;
+        --secondary-gradient-end: #63b3ed;
+        
+        /* 배경색 - 너무 어둡지 않게 조정 */
+        --bg-primary: #0f1419;
+        --bg-secondary: #1a202c;
+        --bg-card: rgba(26, 32, 44, 0.95);
+        --bg-hover: #2d3748;
+        --bg-input: #2d3748;
+        --bg-overlay: rgba(0, 0, 0, 0.8);
+        
+        /* 텍스트 색상 */
+        --text-primary: #f7fafc;
+        --text-secondary: #e2e8f0;
+        --text-muted: #a0aec0;
+        --text-inverse: #1a202c;
+        
+        /* 테두리 및 기타 */
+        --border-color: #2d3748;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.4);
+        --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.5);
+      }
+      
+      /* 다크모드 메타 테마 색상 */
+      meta[name="theme-color"] {
+        content: #1a202c;
       }
     }
 
+    /* 기본 스타일 */
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--primary-gradient-start) 0%, var(--primary-gradient-end) 100%);
       min-height: 100vh;
-      overflow-x: hidden;
-      font-size: 18px;
       color: var(--text-primary);
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* 배경 패턴 효과 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 1;
     }
 
     .container {
-      max-width: 1200px;
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 20px;
+      padding: var(--spacing-md);
+      animation: fadeIn var(--transition-slow) ease-out;
     }
 
+    /* 헤더 스타일 개선 */
     .header {
       text-align: center;
-      margin-bottom: 30px;
-      animation: fadeInDown 1s ease-out;
+      margin-bottom: var(--spacing-xl);
+      padding: var(--spacing-lg) 0;
     }
 
     .header h1 {
-      color: var(--header-text);
-      font-size: 3rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      margin-bottom: 10px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-inverse) 0%, rgba(255, 255, 255, 0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--spacing-sm);
+      letter-spacing: -0.02em;
+      animation: slideDown var(--transition-slow) ease-out;
     }
 
     .header p {
-      color: var(--header-text);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-inverse);
       opacity: 0.9;
-      font-size: 1.3rem;
+      font-weight: 300;
+      animation: slideUp var(--transition-slow) ease-out;
     }
 
+    /* 카드 스타일 개선 */
     .card {
-      background: var(--card-bg);
-      border-radius: 20px;
-      box-shadow: 0 20px 40px var(--shadow-color);
-      padding: 30px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
-      animation: fadeInUp 1s ease-out;
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-xl);
+      padding: clamp(var(--spacing-md), 4vw, var(--spacing-lg));
+      margin-bottom: var(--spacing-lg);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform var(--transition-base) ease, box-shadow var(--transition-base) ease;
+      animation: slideUp var(--transition-slow) ease-out;
+      animation-fill-mode: both;
+    }
+    
+    .card:nth-child(2) {
+      animation-delay: 100ms;
+    }
+    
+    .card:nth-child(3) {
+      animation-delay: 200ms;
+    }
+    
+    .card:nth-child(4) {
+      animation-delay: 300ms;
     }
 
+    /* 섹션 헤더 개선 */
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .section-title {
-      color: var(--text-primary);
-      font-size: 1.5rem;
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
       font-weight: 600;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--spacing-xs);
     }
 
     .scan-status {
+      font-size: clamp(0.875rem, 2vw, 1.125rem);
       color: var(--text-secondary);
-      font-size: 1.1rem;
-      font-weight: normal;
+      background: var(--bg-hover);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: calc(var(--border-radius) / 2);
     }
 
-    /* 카메라 레이아웃 스타일 */
+    /* 카메라 레이아웃 개선 */
     .camera-layout {
-      display: flex;
-      gap: 20px;
-      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-md);
+    }
+
+    @media (min-width: 1024px) {
+      .camera-layout {
+        grid-template-columns: auto 1fr;
+      }
     }
 
     .camera-left-section {
-      flex-shrink: 0;
+      min-width: 0;
     }
 
     .camera-right-section {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 400px;
+      min-height: 300px;
     }
 
-    /* 카메라 목록 그리드 스타일 */
+    /* 카메라 선택 옵션 개선 */
     .camera-grid-container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .camera-column {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    label {
-      color: var(--text-primary);
-      font-weight: 500;
-      font-size: 1.1rem;
-    }
-
-    select, button {
-      padding: 20px 28px;
-      border: 2px solid var(--border-color);
-      border-radius: 12px;
-      font-size: 1.4rem;
-      transition: all 0.3s ease;
-      outline: none;
-      background: var(--input-bg);
-      color: var(--text-primary);
-    }
-
-    select:focus {
-      border-color: #4fc3f7;
-      box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.1);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-sm);
     }
 
     .camera-option {
@@ -182,73 +264,92 @@
     }
 
     .camera-option input[type="radio"] {
-      display: none;
+      position: absolute;
+      opacity: 0;
     }
 
     .camera-option label {
       display: block;
-      padding: 20px 26px;
-      background: var(--input-bg);
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: var(--bg-input);
       border: 2px solid var(--border-color);
-      border-radius: 12px;
+      border-radius: calc(var(--border-radius) / 2);
       cursor: pointer;
-      transition: all 0.3s ease;
       font-weight: 500;
       text-align: center;
-      min-width: 200px;
-      font-size: 1.2rem;
-      color: var(--text-primary);
+      transition: all var(--transition-fast) ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .camera-option input[type="radio"]:checked + label {
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
-      color: white;
-      border-color: #4fc3f7;
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
+      color: var(--text-inverse);
+      border-color: transparent;
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+      box-shadow: var(--shadow-md);
     }
 
     .camera-option label:hover {
-      border-color: #4fc3f7;
+      border-color: var(--secondary-gradient-start);
       transform: translateY(-1px);
     }
 
-    .loading-cameras {
-      color: var(--text-secondary);
-      font-style: italic;
-      padding: 18px;
-      font-size: 1.1rem;
-    }
-
+    /* 버튼 스타일 개선 */
     .btn {
-      cursor: pointer;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border: none;
+      border-radius: calc(var(--border-radius) / 2);
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: clamp(0.875rem, 2vw, 1rem);
+      cursor: pointer;
+      transition: all var(--transition-fast) ease;
+      text-transform: none;
+      letter-spacing: 0.02em;
       position: relative;
       overflow: hidden;
-      height: 100px;
-      font-size: 1.5rem;
-      padding: 26px 40px;
-      border: none;
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-xs);
+      min-height: 48px;
+      color: var(--text-inverse);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width var(--transition-base) ease, height var(--transition-base) ease;
+    }
+
+    .btn:active::before {
+      width: 300px;
+      height: 300px;
     }
 
     .btn-primary {
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
     }
 
     .btn-success {
-      background: linear-gradient(45deg, #66bb6a, #4caf50);
+      background: linear-gradient(135deg, var(--success-gradient-start), var(--success-gradient-end));
     }
 
     .btn-warning {
-      background: linear-gradient(45deg, #ffa726, #ff9800);
+      background: linear-gradient(135deg, var(--warning-gradient-start), var(--warning-gradient-end));
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-lg);
     }
 
     .btn:active {
@@ -261,153 +362,317 @@
       transform: none;
     }
 
-    /* 큰 카메라 뷰어를 위한 스타일 */
+    /* 카메라 뷰어 개선 */
     #reader {
       width: 100%;
-      height: 100%;
-      border-radius: 15px;
+      aspect-ratio: 4 / 3;
+      max-height: 500px;
+      border-radius: var(--border-radius);
       overflow: hidden;
-      box-shadow: 0 10px 30px var(--shadow-color);
-      background: var(--hover-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-secondary);
+      position: relative;
     }
 
     #reader.empty {
-      background: var(--status-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       border: 2px dashed var(--border-color);
+      background: var(--bg-hover);
     }
 
     #reader.empty::before {
-      content: '📷 카메라 미리보기 영역';
-      color: var(--empty-text);
-      font-size: 1.3rem;
+      content: '📷';
+      font-size: 3rem;
+      opacity: 0.3;
     }
 
+    #reader.empty::after {
+      content: '카메라 미리보기';
+      position: absolute;
+      bottom: var(--spacing-md);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* 컨트롤 그리드 개선 */
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin: 20px 0;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--spacing-sm);
+      margin: var(--spacing-md) 0;
     }
 
-    .results-section {
-      margin-top: 30px;
+    /* 통계 카드 개선 */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
     }
 
+    .stat-card {
+      background: linear-gradient(135deg, var(--bg-hover), var(--bg-secondary));
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md);
+      text-align: center;
+      transition: all var(--transition-fast) ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-number {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
+      color: var(--text-muted);
+      margin-top: var(--spacing-xs);
+      font-weight: 500;
+    }
+
+    /* 테이블 스타일 개선 */
     .table-container {
       max-height: 400px;
-      overflow-y: auto;
-      border-radius: 12px;
+      overflow: auto;
+      border-radius: var(--border-radius);
       border: 1px solid var(--border-color);
-      background: var(--input-bg);
+      background: var(--bg-secondary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* 스크롤바 스타일링 */
+    .table-container::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+      background: var(--bg-hover);
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      font-size: clamp(0.875rem, 2vw, 1rem);
     }
 
     th {
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
-      color: white;
-      padding: 18px 15px;
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
+      color: var(--text-inverse);
+      padding: var(--spacing-sm);
       text-align: left;
       font-weight: 600;
       position: sticky;
       top: 0;
-      z-index: 1;
-      font-size: 1.1rem;
+      z-index: 10;
     }
 
     td {
-      padding: 15px;
+      padding: var(--spacing-sm);
       border-bottom: 1px solid var(--border-color);
       color: var(--text-primary);
-      font-size: 1.05rem;
+    }
+
+    tbody tr {
+      transition: background-color var(--transition-fast) ease;
     }
 
     tbody tr:hover {
-      background: var(--table-hover);
+      background: var(--bg-hover);
     }
 
     .sequence-cell {
       text-align: center;
       font-weight: 600;
-      color: #667eea;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .sequence-cell {
-        color: #a78bfa;
-      }
+      background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .text-cell {
-      font-family: monospace;
-      font-size: 1.1rem;
+      font-family: 'Courier New', monospace;
       word-break: break-all;
     }
 
     .time-cell {
-      font-size: 1rem;
-      color: var(--text-secondary);
-    }
-
-    .delete-cell {
-      text-align: center;
-      padding: 10px;
+      font-size: 0.875em;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
     .delete-btn {
-      background: linear-gradient(45deg, #f44336, #d32f2f);
-      color: white;
+      background: linear-gradient(135deg, var(--danger-gradient-start), var(--danger-gradient-end));
+      color: var(--text-inverse);
       border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 0.9rem;
+      border-radius: calc(var(--border-radius) / 3);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      font-size: 0.875rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all var(--transition-fast) ease;
       font-weight: 500;
-      min-width: 60px;
     }
 
     .delete-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
     }
 
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 20px;
+    /* 줌 컨트롤 개선 */
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md);
+      background: var(--bg-hover);
+      border-radius: var(--border-radius);
+      margin: var(--spacing-md) 0;
+      flex-wrap: wrap;
+    }
+
+    .zoom-label {
+      font-weight: 500;
       color: var(--text-primary);
     }
 
-    .spinner {
-      border: 3px solid var(--border-color);
-      border-top: 3px solid #4fc3f7;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 10px;
+    .zoom-status {
+      font-weight: 700;
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: calc(var(--border-radius) / 3);
+      min-width: 80px;
+      text-align: center;
     }
 
+    .zoom-slider-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      min-width: 200px;
+    }
+
+    .zoom-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border-color);
+      outline: none;
+      position: relative;
+    }
+
+    .zoom-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast) ease;
+    }
+
+    .zoom-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      border: none;
+      transition: all var(--transition-fast) ease;
+    }
+
+    .zoom-slider:hover::-webkit-slider-thumb,
+    .zoom-slider:hover::-moz-range-thumb {
+      transform: scale(1.2);
+      box-shadow: var(--shadow-md);
+    }
+
+    .zoom-reset-btn {
+      padding: var(--spacing-xs) var(--spacing-md);
+      background: linear-gradient(135deg, var(--warning-gradient-start), var(--warning-gradient-end));
+      color: var(--text-inverse);
+      border: none;
+      border-radius: calc(var(--border-radius) / 2);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast) ease;
+      white-space: nowrap;
+    }
+
+    .zoom-reset-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* 로딩 스피너 개선 */
+    .loading {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 1000;
+      background: var(--bg-card);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--secondary-gradient-start);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto var(--spacing-sm);
+    }
+
+    /* 알림 개선 */
     .notification {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 20px 25px;
-      border-radius: 10px;
-      color: white;
+      top: var(--spacing-md);
+      right: var(--spacing-md);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius);
+      color: var(--text-inverse);
       font-weight: 500;
-      font-size: 1.1rem;
-      transform: translateX(400px);
-      transition: transform 0.3s ease;
-      z-index: 1000;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transform: translateX(calc(100% + var(--spacing-md)));
+      transition: transform var(--transition-base) ease;
+      z-index: 2000;
+      box-shadow: var(--shadow-xl);
+      max-width: 90vw;
+      backdrop-filter: blur(10px);
     }
 
     .notification.show {
@@ -415,153 +680,108 @@
     }
 
     .notification.success {
-      background: linear-gradient(45deg, #66bb6a, #4caf50);
+      background: linear-gradient(135deg, var(--success-gradient-start), var(--success-gradient-end));
     }
 
     .notification.error {
-      background: linear-gradient(45deg, #f44336, #d32f2f);
+      background: linear-gradient(135deg, var(--danger-gradient-start), var(--danger-gradient-end));
     }
 
     .notification.info {
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
+      background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
     }
 
+    /* 팝업 개선 */
     .confirmation-popup {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: var(--bg-overlay);
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 2000;
-      backdrop-filter: blur(5px);
+      z-index: 3000;
+      backdrop-filter: blur(10px);
+      padding: var(--spacing-md);
     }
 
     .popup-content {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 35px;
+      background: var(--bg-card);
+      border-radius: var(--border-radius);
+      padding: var(--spacing-lg);
       max-width: 500px;
-      width: 90%;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-      animation: popupSlideIn 0.3s ease-out;
-    }
-
-    .popup-header {
-      text-align: center;
-      margin-bottom: 20px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+      animation: popupBounce var(--transition-base) ease-out;
     }
 
     .popup-title {
-      color: var(--text-primary);
-      font-size: 1.8rem;
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
       font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-md);
+      text-align: center;
     }
 
     .popup-text {
-      background: var(--status-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px;
-      font-family: monospace;
-      font-size: 1.2rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-color);
+      border-radius: calc(var(--border-radius) / 2);
+      padding: var(--spacing-md);
+      font-family: 'Courier New', monospace;
       color: var(--text-primary);
       word-break: break-all;
-      max-height: 150px;
+      max-height: 200px;
       overflow-y: auto;
-      margin-bottom: 20px;
+      margin-bottom: var(--spacing-lg);
     }
 
     .popup-buttons {
       display: flex;
-      gap: 10px;
+      gap: var(--spacing-sm);
       justify-content: center;
     }
 
     .popup-btn {
-      padding: 20px 40px;
+      padding: var(--spacing-sm) var(--spacing-lg);
       border: none;
-      border-radius: 10px;
+      border-radius: calc(var(--border-radius) / 2);
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      min-width: 150px;
-      font-size: 1.3rem;
-      color: white;
+      transition: all var(--transition-fast) ease;
+      min-width: 120px;
+      color: var(--text-inverse);
     }
 
     .popup-btn-confirm {
-      background: linear-gradient(45deg, #66bb6a, #4caf50);
+      background: linear-gradient(135deg, var(--success-gradient-start), var(--success-gradient-end));
     }
 
     .popup-btn-cancel {
-      background: linear-gradient(45deg, #f44336, #d32f2f);
+      background: linear-gradient(135deg, var(--danger-gradient-start), var(--danger-gradient-end));
     }
 
     .popup-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      box-shadow: var(--shadow-md);
     }
 
-    @keyframes popupSlideIn {
+    /* 애니메이션 */
+    @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: scale(0.8) translateY(-30px);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateY(0);
       }
     }
 
-    .stats {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-      justify-content: space-between;
-    }
-
-    .stat-card {
-      background: linear-gradient(45deg, rgba(79, 195, 247, 0.1), rgba(41, 182, 246, 0.1));
-      border: 2px solid rgba(79, 195, 247, 0.2);
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      flex: 1;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .stat-card {
-        background: linear-gradient(45deg, rgba(79, 195, 247, 0.05), rgba(41, 182, 246, 0.05));
-        border-color: var(--border-color);
-      }
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #4fc3f7;
-      display: block;
-    }
-
-    .stat-label {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      margin-top: 5px;
-    }
-
-    @keyframes fadeInDown {
+    @keyframes slideDown {
       from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
@@ -569,10 +789,10 @@
       }
     }
 
-    @keyframes fadeInUp {
+    @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
       }
       to {
         opacity: 1;
@@ -585,315 +805,260 @@
       100% { transform: rotate(360deg); }
     }
 
+    @keyframes popupBounce {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      70% {
+        transform: scale(1.05);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      50% { opacity: 0.6; }
     }
 
     .scanning {
       animation: pulse 2s infinite;
     }
 
-    .zoom-controls {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin: 15px auto;
-      background: var(--status-bg);
-      border-radius: 12px;
-      padding: 20px 25px;
-      border: 1px solid var(--border-color);
-      max-width: 1000px;
-      justify-content: center;
-    }
+    /* 태블릿 대응 */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .container {
+        padding: var(--spacing-md);
+      }
 
-    .zoom-label {
-      color: var(--text-primary);
-      font-weight: 500;
-      font-size: 1.1rem;
-      margin-right: 5px;
-    }
+      .camera-layout {
+        grid-template-columns: 250px 1fr;
+      }
 
-    .zoom-status {
-      font-weight: bold;
-      color: #4fc3f7;
-      padding: 8px 20px;
-      background: rgba(79, 195, 247, 0.1);
-      border-radius: 8px;
-      display: inline-block;
-      min-width: 100px;
-      text-align: center;
-      font-size: 1.3rem;
-    }
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
-    @media (prefers-color-scheme: dark) {
-      .zoom-status {
-        color: white;
-        background: rgba(255, 255, 255, 0.1);
+      .controls {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    .zoom-slider-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      position: relative;
-    }
-
-    .zoom-slider {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 12px;
-      border-radius: 6px;
-      background: var(--zoom-slider-bg);
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .zoom-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(79, 195, 247, 0.3);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .zoom-slider::-webkit-slider-thumb {
-        background: white;
-        box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-      }
-    }
-
-    .zoom-slider::-moz-range-thumb {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(45deg, #4fc3f7, #29b6f6);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(79, 195, 247, 0.3);
-      border: none;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .zoom-slider::-moz-range-thumb {
-        background: white;
-        box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
-      }
-    }
-
-    .zoom-slider:hover::-webkit-slider-thumb {
-      transform: scale(1.2);
-      box-shadow: 0 4px 12px rgba(79, 195, 247, 0.5);
-    }
-
-    .zoom-slider:hover::-moz-range-thumb {
-      transform: scale(1.2);
-      box-shadow: 0 4px 12px rgba(79, 195, 247, 0.5);
-    }
-
-    .zoom-slider:active::-webkit-slider-thumb {
-      transform: scale(1.1);
-    }
-
-    .zoom-slider:active::-moz-range-thumb {
-      transform: scale(1.1);
-    }
-
-    .zoom-slider {
-      background: linear-gradient(to right, var(--zoom-slider-bg) 0%, var(--zoom-slider-bg) var(--value), var(--zoom-slider-active) var(--value), var(--zoom-slider-active) 100%);
-    }
-
-    .zoom-min-max {
-      color: var(--text-secondary);
-      font-size: 1rem;
-      font-weight: 500;
-    }
-
-    .zoom-reset-btn {
-      padding: 14px 28px;
-      background: linear-gradient(45deg, #ff7043, #ff5722);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 1.2rem;
-      white-space: nowrap;
-      min-width: 140px;
-    }
-
-    .zoom-reset-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
-    }
-
-    .zoom-reset-btn:active {
-      transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-      body {
-        font-size: 20px;
+    /* 모바일 대응 */
+    @media (max-width: 767px) {
+      :root {
+        --border-radius: 12px;
       }
 
       .container {
-        padding: 15px;
+        padding: var(--spacing-sm);
       }
 
-      .header h1 {
-        font-size: 2.5rem;
-      }
-
-      .header p {
-        font-size: 1.4rem;
+      .header {
+        padding: var(--spacing-md) 0;
+        margin-bottom: var(--spacing-md);
       }
 
       .card {
-        padding: 25px;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
       }
 
       .section-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
-      }
-
-      .section-title {
-        font-size: 1.6rem;
-      }
-
-      .scan-status {
-        font-size: 1rem;
       }
 
       .camera-layout {
-        flex-direction: column;
-      }
-
-      .camera-right-section {
-        min-height: 300px;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
       }
 
       .camera-grid-container {
-        flex-direction: column;
+        grid-template-columns: 1fr;
       }
 
-      .camera-column {
-        width: 100%;
-      }
-
-      .camera-option label {
-        width: 100%;
-        min-width: unset;
+      #reader {
+        aspect-ratio: 16 / 9;
+        max-height: 300px;
       }
 
       .controls {
         grid-template-columns: 1fr;
-        gap: 10px;
       }
 
       .stats {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xs);
       }
 
-      table {
-        font-size: 1.1rem;
+      .stat-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+      }
+
+      .zoom-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .zoom-slider-container {
+        width: 100%;
+      }
+
+      .table-container {
+        max-height: 300px;
       }
 
       th, td {
-        padding: 12px 8px;
+        padding: var(--spacing-xs);
+        font-size: 0.875rem;
+      }
+
+      .time-cell {
+        display: none;
       }
 
       .notification {
-        right: 10px;
-        left: 10px;
-        transform: translateY(-100px);
-        font-size: 1.2rem;
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+        transform: translateY(calc(-100% - var(--spacing-md)));
       }
 
       .notification.show {
         transform: translateY(0);
       }
 
-      .zoom-controls {
-        padding: 15px 20px;
-        gap: 12px;
-        flex-direction: column;
-        max-width: 90%;
+      .popup-content {
+        padding: var(--spacing-md);
       }
 
-      .zoom-slider-container {
-        width: 100%;
-      }
-
-      .zoom-controls {
-        display: grid;
-        grid-template-columns: auto auto;
-        grid-template-rows: auto auto;
-        gap: 12px;
-        align-items: center;
-      }
-      
-      .zoom-slider-container {
-        grid-column: 1 / -1;
-      }
-      
-      .zoom-reset-btn {
-        grid-column: 1 / -1;
-        width: 100%;
-        padding: 15px 30px;
-        font-size: 1.2rem;
+      .popup-text {
+        max-height: 150px;
       }
     }
 
-    @media (max-width: 480px) {
-      body {
-        font-size: 22px;
+    /* 작은 모바일 대응 */
+    @media (max-width: 374px) {
+      html {
+        font-size: 14px;
       }
 
       .header h1 {
-        font-size: 2rem;
-      }
-
-      .section-title {
-        font-size: 1.4rem;
-      }
-
-      .stats {
-        flex-direction: column;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-      }
-
-      .stat-label {
-        font-size: 1.2rem;
-      }
-
-      .zoom-controls {
-        padding: 12px 15px;
-        gap: 10px;
+        font-size: 1.75rem;
       }
 
       .btn {
-        height: 110px;
-        font-size: 1.6rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.875rem;
       }
 
-      .popup-btn {
-        padding: 22px 44px;
-        font-size: 1.4rem;
+      .stat-number {
+        font-size: 1.25rem;
       }
+    }
+
+    /* 터치 디바이스 최적화 */
+    @media (hover: none) and (pointer: coarse) {
+      .btn, .popup-btn, .delete-btn, .zoom-reset-btn {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      .camera-option label {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 터치 피드백 향상 */
+      .btn:active, .popup-btn:active, .delete-btn:active {
+        transform: scale(0.95);
+      }
+    }
+
+    /* 고해상도 디스플레이 대응 */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      th, td {
+        border-bottom-width: 0.5px;
+      }
+    }
+
+    /* 가로 모드 대응 */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .header {
+        padding: var(--spacing-sm) 0;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .header p {
+        display: none;
+      }
+
+      .card {
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      #reader {
+        max-height: 200px;
+      }
+
+      .stats {
+        display: none;
+      }
+    }
+
+    /* 인쇄 스타일 */
+    @media print {
+      body {
+        background: white;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+      }
+
+      .controls, .zoom-controls, .delete-cell, .delete-btn {
+        display: none;
+      }
+    }
+
+    /* 접근성 향상 */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* 포커스 스타일 */
+    :focus-visible {
+      outline: 2px solid var(--secondary-gradient-start);
+      outline-offset: 2px;
+    }
+
+    /* 선택 영역 스타일 */
+    ::selection {
+      background: var(--secondary-gradient-start);
+      color: var(--text-inverse);
     }
   </style>
 </head>
@@ -984,13 +1149,13 @@
             <tr>
               <th style="width: 80px;">순번</th>
               <th>인식된 문자</th>
-              <th style="width: 160px;">인식 시간</th>
+              <th style="width: 160px;" class="time-cell">인식 시간</th>
               <th style="width: 100px;">삭제</th>
             </tr>
           </thead>
           <tbody id="resultsTable">
             <tr>
-              <td colspan="4" style="text-align: center; color: var(--empty-text); padding: 40px; font-size: 1.1rem;">
+              <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
                 아직 스캔된 데이터가 없습니다. 📱
               </td>
             </tr>
@@ -1001,7 +1166,7 @@
 
     <div class="loading" id="loading">
       <div class="spinner"></div>
-      <div style="font-size: 1.2rem;">처리 중...</div>
+      <div>처리 중...</div>
     </div>
   </div>
 
@@ -1024,7 +1189,18 @@
       setupEventListeners();
       loadSavedData();
       setupZoomControls();
+      updateColorScheme();
     }
+
+    function updateColorScheme() {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) {
+        metaTheme.content = isDark ? '#1a202c' : '#667eea';
+      }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(updateColorScheme);
 
     function setupEventListeners() {
       document.getElementById('startBtn').addEventListener('click', startScanning);
@@ -1036,7 +1212,7 @@
 
     function triggerHapticFeedback() {
       if (window.navigator && window.navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(20);
       }
     }
 
@@ -1081,7 +1257,7 @@
     function updateSliderBackground() {
       const slider = document.getElementById('zoomSlider');
       const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-      slider.style.setProperty('--value', value + '%');
+      slider.style.background = `linear-gradient(to right, var(--border-color) 0%, var(--border-color) ${value}%, var(--bg-hover) ${value}%, var(--bg-hover) 100%)`;
     }
     
     function updateZoomDisplay() {
@@ -1143,26 +1319,12 @@
           return;
         }
 
-        // 4개씩 묶어서 컬럼으로 표시
-        const columns = [];
-        const itemsPerColumn = 4;
-        
-        for (let i = 0; i < devices.length; i += itemsPerColumn) {
-          const columnDevices = devices.slice(i, Math.min(i + itemsPerColumn, devices.length));
-          const columnHtml = `
-            <div class="camera-column">
-              ${columnDevices.map((device, idx) => `
-                <div class="camera-option">
-                  <input type="radio" id="camera${i + idx}" name="camera" value="${device.id}">
-                  <label for="camera${i + idx}">${device.label || `카메라 ${i + idx + 1}`}</label>
-                </div>
-              `).join('')}
-            </div>
-          `;
-          columns.push(columnHtml);
-        }
-        
-        container.innerHTML = columns.join('');
+        container.innerHTML = devices.map((device, idx) => `
+          <div class="camera-option">
+            <input type="radio" id="camera${idx}" name="camera" value="${device.id}">
+            <label for="camera${idx}">${device.label || `카메라 ${idx + 1}`}</label>
+          </div>
+        `).join('');
 
         if (devices.length > 0) {
           document.getElementById('camera0').checked = true;
@@ -1272,10 +1434,13 @@
 
     function updateResultsTable() {
       const tbody = document.getElementById('resultsTable');
+      const colSpan = window.innerWidth <= 767 ? 3 : 4;
+      
       if (scanResults.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--empty-text); padding: 40px; font-size: 1.1rem;">아직 스캔된 데이터가 없습니다. 📱</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: var(--text-muted); padding: 40px;">아직 스캔된 데이터가 없습니다. 📱</td></tr>`;
         return;
       }
+      
       tbody.innerHTML = scanResults.map((result, index) => `
         <tr>
           <td class="sequence-cell">${result.sequence}</td>
@@ -1556,13 +1721,14 @@
       }
     });
 
-    // 다크모드 변경 감지
-    if (window.matchMedia) {
-      const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      darkModeQuery.addListener((e) => {
-        console.log('다크모드 변경 감지:', e.matches ? '다크모드' : '라이트모드');
-      });
-    }
+    // 리사이즈 이벤트 처리
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateResultsTable();
+      }, 300);
+    });
   </script>
 </body>
 </html>
