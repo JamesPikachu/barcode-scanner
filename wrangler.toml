@@ -1,0 +1,11 @@
+name = "barcode-scanner"
+compatibility_date = "2025-07-16"
+
+# Pages 프로젝트 설정
+pages_build_output_dir = "public"
+
+# D1 데이터베이스 바인딩
+[[d1_databases]]
+binding = "DB"
+database_name = "barcode-scanner-db"
+database_id = "5385687b-a436-4629-ade5-0275e75f1953"
