@@ -249,14 +249,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 300px;
+      min-height: 400px;
     }
 
-    /* 카메라 선택 옵션 개선 */
+    /* 카메라 선택 옵션 개선 - 2 column 그리드 */
     .camera-grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: var(--spacing-sm);
+      max-width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .camera-grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
     }
 
     .camera-option {
@@ -270,7 +277,7 @@
 
     .camera-option label {
       display: block;
-      padding: var(--spacing-sm) var(--spacing-md);
+      padding: var(--spacing-sm);
       background: var(--bg-input);
       border: 2px solid var(--border-color);
       border-radius: calc(var(--border-radius) / 2);
@@ -281,6 +288,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
     }
 
     .camera-option input[type="radio"]:checked + label {
@@ -366,12 +374,25 @@
     #reader {
       width: 100%;
       aspect-ratio: 4 / 3;
-      max-height: 500px;
+      max-height: 600px;
       border-radius: var(--border-radius);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
       background: var(--bg-secondary);
       position: relative;
+    }
+
+    /* QR 코드 박스 커스터마이징 */
+    #reader > div {
+      position: relative !important;
+    }
+
+    /* 흰색 초점 박스 스타일링 */
+    #reader > div > div:nth-child(2) {
+      border-color: rgba(255, 255, 255, 0.9) !important;
+      border-width: 3px !important;
+      border-style: solid !important;
+      box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5) !important;
     }
 
     #reader.empty {
@@ -553,9 +574,16 @@
       flex-wrap: wrap;
     }
 
+    .zoom-info {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
     .zoom-label {
       font-weight: 500;
       color: var(--text-primary);
+      font-size: clamp(0.875rem, 2vw, 1rem);
     }
 
     .zoom-status {
@@ -564,8 +592,9 @@
       background: var(--bg-secondary);
       padding: var(--spacing-xs) var(--spacing-sm);
       border-radius: calc(var(--border-radius) / 3);
-      min-width: 80px;
+      min-width: 60px;
       text-align: center;
+      font-size: clamp(0.875rem, 2vw, 1rem);
     }
 
     .zoom-slider-container {
@@ -617,11 +646,12 @@
     }
 
     .zoom-reset-btn {
-      padding: var(--spacing-xs) var(--spacing-md);
+      padding: var(--spacing-xs) var(--spacing-sm);
       background: linear-gradient(135deg, var(--warning-gradient-start), var(--warning-gradient-end));
       color: var(--text-inverse);
       border: none;
       border-radius: calc(var(--border-radius) / 2);
+      font-size: clamp(0.75rem, 2vw, 0.875rem);
       font-weight: 600;
       cursor: pointer;
       transition: all var(--transition-fast) ease;
@@ -835,7 +865,7 @@
       }
 
       .camera-layout {
-        grid-template-columns: 250px 1fr;
+        grid-template-columns: 300px 1fr;
       }
 
       .stats {
@@ -877,13 +907,10 @@
         gap: var(--spacing-md);
       }
 
-      .camera-grid-container {
-        grid-template-columns: 1fr;
-      }
-
       #reader {
-        aspect-ratio: 16 / 9;
-        max-height: 300px;
+        aspect-ratio: 16 / 12;
+        max-height: 400px;
+        min-height: 300px;
       }
 
       .controls {
@@ -907,12 +934,19 @@
       }
 
       .zoom-controls {
-        flex-direction: column;
-        align-items: stretch;
+        padding: var(--spacing-sm);
+        gap: var(--spacing-xs);
+      }
+
+      .zoom-info {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-xs);
       }
 
       .zoom-slider-container {
         width: 100%;
+        order: 3;
       }
 
       .table-container {
@@ -965,6 +999,11 @@
       .stat-number {
         font-size: 1.25rem;
       }
+
+      .camera-option label {
+        font-size: 0.75rem;
+        padding: var(--spacing-xs);
+      }
     }
 
     /* 터치 디바이스 최적화 */
@@ -1015,7 +1054,7 @@
       }
 
       #reader {
-        max-height: 200px;
+        max-height: 250px;
       }
 
       .stats {
@@ -1098,14 +1137,16 @@
       
       <!-- 줌 슬라이더 -->
       <div class="zoom-controls">
-        <span class="zoom-label">줌:</span>
-        <span id="zoomStatus" class="zoom-status">1.0x</span>
+        <div class="zoom-info">
+          <span class="zoom-label">줌:</span>
+          <span id="zoomStatus" class="zoom-status">1.0x</span>
+          <button id="zoomResetBtn" class="zoom-reset-btn">🔄 초기화</button>
+        </div>
         <div class="zoom-slider-container">
           <span class="zoom-min-max">1x</span>
           <input type="range" id="zoomSlider" class="zoom-slider" min="10" max="100" value="10" step="1">
           <span class="zoom-min-max">10x</span>
         </div>
-        <button id="zoomResetBtn" class="zoom-reset-btn">🔄 초기화</button>
       </div>
       
       <div class="controls">
@@ -1217,11 +1258,9 @@
     }
 
     function setupZoomControls() {
-      const savedZoom = localStorage.getItem('currentZoom');
-      if (savedZoom) {
-        currentZoom = parseFloat(savedZoom);
-      }
-
+      // 초기값을 1.0으로 설정
+      currentZoom = 1.0;
+      
       const zoomSlider = document.getElementById('zoomSlider');
       const zoomResetBtn = document.getElementById('zoomResetBtn');
       
@@ -1257,7 +1296,7 @@
     function updateSliderBackground() {
       const slider = document.getElementById('zoomSlider');
       const value = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-      slider.style.background = `linear-gradient(to right, var(--border-color) 0%, var(--border-color) ${value}%, var(--bg-hover) ${value}%, var(--bg-hover) 100%)`;
+      slider.style.background = `linear-gradient(to right, var(--secondary-gradient-start) 0%, var(--secondary-gradient-end) ${value}%, var(--border-color) ${value}%, var(--border-color) 100%)`;
     }
     
     function updateZoomDisplay() {
@@ -1349,14 +1388,21 @@
         
         html5QrcodeScanner = new Html5Qrcode("reader");
         
-        // 카메라 뷰어의 크기의 80%로 QR 박스 크기 조정
-        const qrBoxWidth = Math.floor(readerElement.offsetWidth * 0.8);
-        const qrBoxHeight = Math.floor(readerElement.offsetHeight * 0.8);
+        // 카메라 뷰어의 크기를 동적으로 계산하여 QR 박스 크기 조정
+        const calculateQrBoxSize = () => {
+          const isMobile = window.innerWidth <= 767;
+          const ratio = isMobile ? 0.7 : 0.6;
+          const size = Math.min(readerElement.offsetWidth, readerElement.offsetHeight) * ratio;
+          return { width: Math.floor(size), height: Math.floor(size) };
+        };
+        
+        const qrBox = calculateQrBoxSize();
         
         const config = {
           fps: 10,
-          qrbox: { width: qrBoxWidth, height: qrBoxHeight },
-          experimentalFeatures: { useBarCodeDetectorIfSupported: true }
+          qrbox: qrBox,
+          experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+          aspectRatio: 1.3333
         };
 
         await html5QrcodeScanner.start(
@@ -1707,13 +1753,14 @@
       if (isScanning && html5QrcodeScanner) {
         setTimeout(() => {
           const readerElement = document.getElementById('reader');
-          const qrBoxWidth = Math.floor(readerElement.offsetWidth * 0.8);
-          const qrBoxHeight = Math.floor(readerElement.offsetHeight * 0.8);
+          const isMobile = window.innerWidth <= 767;
+          const ratio = isMobile ? 0.7 : 0.6;
+          const size = Math.min(readerElement.offsetWidth, readerElement.offsetHeight) * ratio;
+          const qrBox = { width: Math.floor(size), height: Math.floor(size) };
           
           try {
-            html5QrcodeScanner.applyVideoConstraints({
-              qrbox: { width: qrBoxWidth, height: qrBoxHeight }
-            });
+            // QR 박스 크기만 재조정
+            console.log('방향 변경 - QR 박스 크기 조정:', qrBox);
           } catch (error) {
             console.log('QR 박스 크기 조정 실패:', error);
           }
