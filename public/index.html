@@ -66,37 +66,37 @@
       --spacing-xl: 3rem;
     }
 
-    /* 다크모드 변수 개선 */
+    /* 다크모드 변수 개선 - 더 밝게 */
     @media (prefers-color-scheme: dark) {
       :root {
-        /* 색상 - 다크모드에 더 적합하게 조정 */
-        --primary-gradient-start: #4c51bf;
-        --primary-gradient-end: #553c9a;
-        --secondary-gradient-start: #3182ce;
-        --secondary-gradient-end: #2c5282;
-        --success-gradient-start: #48bb78;
-        --success-gradient-end: #38a169;
-        --warning-gradient-start: #ed8936;
-        --warning-gradient-end: #dd6b20;
-        --danger-gradient-start: #e53e3e;
-        --danger-gradient-end: #c53030;
+        /* 색상 - 다크모드에 더 밝게 조정 */
+        --primary-gradient-start: #818cf8;
+        --primary-gradient-end: #a78bfa;
+        --secondary-gradient-start: #60a5fa;
+        --secondary-gradient-end: #3b82f6;
+        --success-gradient-start: #4ade80;
+        --success-gradient-end: #22c55e;
+        --warning-gradient-start: #fb923c;
+        --warning-gradient-end: #f97316;
+        --danger-gradient-start: #f87171;
+        --danger-gradient-end: #ef4444;
         
-        /* 배경색 - 더 부드럽고 조화로운 다크 톤 */
+        /* 배경색 - 더 밝고 대비가 좋은 다크 톤 */
         --bg-primary: #1a1a2e;
-        --bg-secondary: #16213e;
-        --bg-card: rgba(22, 33, 62, 0.95);
-        --bg-hover: #1e293b;
-        --bg-input: #334155;
+        --bg-secondary: #2d2d44;
+        --bg-card: rgba(45, 45, 68, 0.95);
+        --bg-hover: #3d3d5c;
+        --bg-input: #4a4a6a;
         --bg-overlay: rgba(0, 0, 0, 0.8);
         
-        /* 텍스트 색상 - 가독성 향상 */
-        --text-primary: #f1f5f9;
-        --text-secondary: #cbd5e1;
-        --text-muted: #94a3b8;
-        --text-inverse: #0f172a;
+        /* 텍스트 색상 - 더 밝게 */
+        --text-primary: #ffffff;
+        --text-secondary: #e5e7eb;
+        --text-muted: #d1d5db;
+        --text-inverse: #1a1a2e;
         
-        /* 테두리 및 기타 */
-        --border-color: #475569;
+        /* 테두리 및 기타 - 더 밝게 */
+        --border-color: #6b7280;
         --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
         --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
         --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -235,7 +235,7 @@
       border-radius: calc(var(--border-radius) / 2);
     }
 
-    /* 카메라 레이아웃 개선 - 카메라를 상단으로 */
+    /* 카메라 레이아웃 개선 - PC 모드 전용 스타일 */
     .camera-layout {
       display: flex;
       flex-direction: column;
@@ -251,6 +251,11 @@
     .camera-controls-section {
       order: 2;
       width: 100%;
+    }
+
+    /* PC용 카메라 컨트롤 레이아웃 */
+    .pc-camera-controls {
+      display: none;
     }
 
     /* 카메라 뷰어 개선 - 더 크고 상단에 배치 */
@@ -353,6 +358,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--text-primary);
     }
 
     .camera-option input[type="radio"]:checked + label {
@@ -442,7 +448,7 @@
       margin: var(--spacing-sm) 0;
     }
 
-    /* 줌 컨트롤 개선 - 더 컴팩트하게 */
+    /* 줌 컨트롤 개선 - 더 두껍고 밝게 */
     .zoom-controls {
       display: flex;
       align-items: center;
@@ -452,6 +458,7 @@
       border-radius: var(--border-radius);
       margin: var(--spacing-sm) 0;
       flex-wrap: wrap;
+      border: 1px solid var(--border-color);
     }
 
     .zoom-info {
@@ -476,6 +483,7 @@
       min-width: 50px;
       text-align: center;
       font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+      border: 1px solid var(--border-color);
     }
 
     .zoom-slider-container {
@@ -490,8 +498,8 @@
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 4px;
-      border-radius: 2px;
+      height: 8px;
+      border-radius: 4px;
       background: var(--border-color);
       outline: none;
       position: relative;
@@ -500,22 +508,22 @@
     .zoom-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
       transition: all var(--transition-fast) ease;
     }
 
     .zoom-slider::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--secondary-gradient-start), var(--secondary-gradient-end));
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
       border: none;
       transition: all var(--transition-fast) ease;
     }
@@ -523,7 +531,7 @@
     .zoom-slider:hover::-webkit-slider-thumb,
     .zoom-slider:hover::-moz-range-thumb {
       transform: scale(1.2);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-lg);
     }
 
     .zoom-reset-btn {
@@ -580,7 +588,7 @@
 
     .stat-label {
       font-size: clamp(0.625rem, 1.5vw, 0.75rem);
-      color: var(--text-muted);
+      color: var(--text-secondary);
       margin-top: var(--spacing-xs);
       font-weight: 500;
     }
@@ -597,8 +605,8 @@
 
     /* 스크롤바 스타일링 */
     .table-container::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
     }
 
     .table-container::-webkit-scrollbar-track {
@@ -606,12 +614,12 @@
     }
 
     .table-container::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 3px;
+      background: var(--secondary-gradient-start);
+      border-radius: 4px;
     }
 
     .table-container::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
+      background: var(--secondary-gradient-end);
     }
 
     table {
@@ -648,20 +656,30 @@
     .sequence-cell {
       text-align: center;
       font-weight: 600;
-      background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--text-primary);
+      background: var(--bg-hover);
+      border-radius: calc(var(--border-radius) / 3);
+      padding: var(--spacing-xs);
+    }
+
+    /* 다크모드에서 순번 셀 색상 더 밝게 */
+    @media (prefers-color-scheme: dark) {
+      .sequence-cell {
+        background: var(--bg-input);
+        color: #ffffff;
+        font-weight: 700;
+      }
     }
 
     .text-cell {
       font-family: 'Courier New', monospace;
       word-break: break-all;
+      color: var(--text-primary);
     }
 
     .time-cell {
       font-size: 0.875em;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       white-space: nowrap;
     }
 
@@ -696,6 +714,7 @@
       padding: var(--spacing-lg);
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-xl);
+      color: var(--text-primary);
     }
 
     .spinner {
@@ -1141,31 +1160,63 @@
       }
     }
 
-    /* 데스크톱 대응 */
+    /* 데스크톱 대응 - PC 모드 전용 */
     @media (min-width: 1024px) {
-      .camera-layout {
-        display: grid;
-        grid-template-columns: 1fr 350px;
-        gap: var(--spacing-lg);
+      /* PC 전용 카메라 컨트롤 표시 */
+      .pc-camera-controls {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
       }
 
-      .camera-main-section {
-        order: 2;
+      /* 카메라 선택과 스캔 버튼을 한 줄로 */
+      .pc-camera-left {
+        flex: 0 0 300px;
+      }
+
+      .pc-camera-right {
+        flex: 1;
+        display: flex;
+        align-items: flex-end;
+      }
+
+      /* 카메라 그리드를 더 컴팩트하게 */
+      .camera-grid-container {
+        grid-template-columns: 1fr;
+        max-height: 150px;
+        overflow-y: auto;
+        border: 1px solid var(--border-color);
+        border-radius: calc(var(--border-radius) / 2);
+        padding: var(--spacing-xs);
+      }
+
+      /* 메인 카메라 화면을 더 크게 */
+      #reader {
+        max-height: 600px;
+        aspect-ratio: 16 / 10;
+      }
+
+      /* 기존 모바일 레이아웃 숨기기 */
+      .camera-layout {
+        display: block;
       }
 
       .camera-controls-section {
-        order: 1;
-      }
-
-      #reader {
-        max-height: 500px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
+        display: none;
       }
 
       .controls {
+        display: none;
+      }
+
+      /* PC 전용 스캔 버튼 */
+      .pc-scan-buttons {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+
+      .stats {
         grid-template-columns: repeat(3, 1fr);
       }
     }
@@ -1226,7 +1277,25 @@
         </div>
       </div>
 
-      <!-- 카메라 레이아웃 - 카메라를 상단으로 이동 -->
+      <!-- PC용 카메라 컨트롤 레이아웃 -->
+      <div class="pc-camera-controls">
+        <div class="pc-camera-left">
+          <div class="form-group">
+            <label style="font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-xs); display: block; font-size: 0.875rem;">카메라 선택</label>
+            <div id="cameraOptions" class="camera-grid-container">
+              <div class="loading-cameras">카메라를 검색 중...</div>
+            </div>
+          </div>
+        </div>
+        <div class="pc-camera-right">
+          <div class="pc-scan-buttons">
+            <button id="startBtnPC" class="btn btn-primary">🎯 스캔 시작</button>
+            <button id="stopBtnPC" class="btn btn-warning" style="display: none;">⏹️ 스캔 중지</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 카메라 레이아웃 - 모바일과 태블릿용 -->
       <div class="camera-layout">
         <!-- 카메라 뷰어 -->
         <div class="camera-main-section">
@@ -1237,28 +1306,28 @@
           </div>
         </div>
         
-        <!-- 카메라 컨트롤 -->
+        <!-- 카메라 컨트롤 - 모바일용 -->
         <div class="camera-controls-section">
           <div class="form-group">
             <label style="font-weight: 600; color: var(--text-primary); margin-bottom: var(--spacing-xs); display: block; font-size: 0.875rem;">카메라 선택</label>
-            <div id="cameraOptions" class="camera-grid-container">
+            <div id="cameraOptionsMobile" class="camera-grid-container">
               <div class="loading-cameras">카메라를 검색 중...</div>
             </div>
           </div>
-          
-          <!-- 줌 슬라이더 -->
-          <div class="zoom-controls">
-            <div class="zoom-info">
-              <span class="zoom-label">줌:</span>
-              <span id="zoomStatus" class="zoom-status">1.0x</span>
-              <button id="zoomResetBtn" class="zoom-reset-btn">🔄 초기화</button>
-            </div>
-            <div class="zoom-slider-container">
-              <span class="zoom-min-max" style="font-size: 0.75rem; color: var(--text-muted);">1x</span>
-              <input type="range" id="zoomSlider" class="zoom-slider" min="10" max="100" value="10" step="1">
-              <span class="zoom-min-max" style="font-size: 0.75rem; color: var(--text-muted);">10x</span>
-            </div>
-          </div>
+        </div>
+      </div>
+      
+      <!-- 줌 슬라이더 -->
+      <div class="zoom-controls">
+        <div class="zoom-info">
+          <span class="zoom-label">줌:</span>
+          <span id="zoomStatus" class="zoom-status">1.0x</span>
+          <button id="zoomResetBtn" class="zoom-reset-btn">🔄 초기화</button>
+        </div>
+        <div class="zoom-slider-container">
+          <span class="zoom-min-max" style="font-size: 0.75rem; color: var(--text-secondary);">1x</span>
+          <input type="range" id="zoomSlider" class="zoom-slider" min="10" max="100" value="10" step="1">
+          <span class="zoom-min-max" style="font-size: 0.75rem; color: var(--text-secondary);">10x</span>
         </div>
       </div>
     </div>
@@ -1281,7 +1350,7 @@
           <div class="stat-label">고유 코드</div>
         </div>
       </div>
-      <div class="controls">
+      <div class="controls" style="display: grid;">
         <button id="copyBtn" class="btn btn-success">📋 클립보드 복사</button>
         <button id="saveBtn" class="btn btn-primary">💾 데이터베이스 저장</button>
         <button id="clearBtn" class="btn btn-warning">🗑️ 데이터 지우기</button>
@@ -1304,7 +1373,7 @@
           </thead>
           <tbody id="resultsTable">
             <tr>
-              <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
+              <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 40px;">
                 아직 스캔된 데이터가 없습니다. 📱
               </td>
             </tr>
@@ -1352,8 +1421,16 @@
     window.matchMedia('(prefers-color-scheme: dark)').addListener(updateColorScheme);
 
     function setupEventListeners() {
+      // 모바일 버튼
       document.getElementById('startBtn').addEventListener('click', startScanning);
       document.getElementById('stopBtn').addEventListener('click', stopScanning);
+      
+      // PC 버튼
+      const startBtnPC = document.getElementById('startBtnPC');
+      const stopBtnPC = document.getElementById('stopBtnPC');
+      if (startBtnPC) startBtnPC.addEventListener('click', startScanning);
+      if (stopBtnPC) stopBtnPC.addEventListener('click', stopScanning);
+      
       document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
       document.getElementById('saveBtn').addEventListener('click', saveToDatabase);
       document.getElementById('clearBtn').addEventListener('click', clearData);
@@ -1458,27 +1535,59 @@
     async function loadCameras() {
       try {
         const devices = await Html5Qrcode.getCameras();
-        const container = document.getElementById('cameraOptions');
+        const containerPC = document.getElementById('cameraOptions');
+        const containerMobile = document.getElementById('cameraOptionsMobile');
         
         if (devices.length === 0) {
-          container.innerHTML = '<div class="loading-cameras">사용 가능한 카메라가 없습니다.</div>';
+          const msg = '<div class="loading-cameras">사용 가능한 카메라가 없습니다.</div>';
+          if (containerPC) containerPC.innerHTML = msg;
+          if (containerMobile) containerMobile.innerHTML = msg;
           showNotification('카메라를 찾을 수 없습니다.', 'error');
           return;
         }
 
-        container.innerHTML = devices.map((device, idx) => `
+        const optionsHTML = devices.map((device, idx) => `
           <div class="camera-option">
             <input type="radio" id="camera${idx}" name="camera" value="${device.id}">
             <label for="camera${idx}">${device.label || `카메라 ${idx + 1}`}</label>
           </div>
         `).join('');
 
+        if (containerPC) containerPC.innerHTML = optionsHTML;
+        if (containerMobile) {
+          // 모바일용 카메라 옵션 복제
+          containerMobile.innerHTML = devices.map((device, idx) => `
+            <div class="camera-option">
+              <input type="radio" id="cameraMobile${idx}" name="camera" value="${device.id}">
+              <label for="cameraMobile${idx}">${device.label || `카메라 ${idx + 1}`}</label>
+            </div>
+          `).join('');
+        }
+
         if (devices.length > 0) {
           document.getElementById('camera0').checked = true;
+          const mobileCam = document.getElementById('cameraMobile0');
+          if (mobileCam) mobileCam.checked = true;
         }
+
+        // 라디오 버튼 동기화
+        document.querySelectorAll('input[name="camera"]').forEach(radio => {
+          radio.addEventListener('change', function() {
+            if (this.checked) {
+              document.querySelectorAll('input[name="camera"]').forEach(r => {
+                if (r.value === this.value) r.checked = true;
+              });
+            }
+          });
+        });
+
       } catch (error) {
         console.error('카메라 로드 오류:', error);
-        document.getElementById('cameraOptions').innerHTML = '<div class="loading-cameras">카메라 로드 실패</div>';
+        const msg = '<div class="loading-cameras">카메라 로드 실패</div>';
+        const containerPC = document.getElementById('cameraOptions');
+        const containerMobile = document.getElementById('cameraOptionsMobile');
+        if (containerPC) containerPC.innerHTML = msg;
+        if (containerMobile) containerMobile.innerHTML = msg;
         showNotification('카메라 로드 중 오류가 발생했습니다.', 'error');
       }
     }
@@ -1519,8 +1628,15 @@
 
         isScanning = true;
         updateScanStatus('스캔 중...', 'scanning');
+        
+        // 모바일과 PC 버튼 모두 업데이트
         document.getElementById('startBtn').style.display = 'none';
         document.getElementById('stopBtn').style.display = 'block';
+        const startBtnPC = document.getElementById('startBtnPC');
+        const stopBtnPC = document.getElementById('stopBtnPC');
+        if (startBtnPC) startBtnPC.style.display = 'none';
+        if (stopBtnPC) stopBtnPC.style.display = 'block';
+        
         showNotification('스캔을 시작했습니다! 📱', 'success');
 
         setTimeout(() => applyZoom(), 500);
@@ -1541,8 +1657,15 @@
           isScanning = false;
           cameraSupportsZoom = false;
           updateScanStatus('대기 중...', '');
+          
+          // 모바일과 PC 버튼 모두 업데이트
           document.getElementById('startBtn').style.display = 'block';
           document.getElementById('stopBtn').style.display = 'none';
+          const startBtnPC = document.getElementById('startBtnPC');
+          const stopBtnPC = document.getElementById('stopBtnPC');
+          if (startBtnPC) startBtnPC.style.display = 'block';
+          if (stopBtnPC) stopBtnPC.style.display = 'none';
+          
           document.getElementById('reader').classList.add('empty');
           showNotification('스캔을 중지했습니다.', 'info');
         }).catch(error => {
@@ -1591,7 +1714,7 @@
       const colSpan = window.innerWidth <= 767 ? 3 : 4;
       
       if (scanResults.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: var(--text-muted); padding: 40px;">아직 스캔된 데이터가 없습니다. 📱</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: var(--text-secondary); padding: 40px;">아직 스캔된 데이터가 없습니다. 📱</td></tr>`;
         return;
       }
       
