@@ -477,6 +477,14 @@
       margin: var(--spacing-sm) 0;
     }
 
+    /* 스캔 시작/중지 전용 컨트롤 */
+    .scan-controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xs);
+      margin: var(--spacing-sm) 0;
+    }
+
     /* 통계 섹션 간격 추가 */
     .stats-card {
       margin-bottom: var(--spacing-lg);
@@ -645,8 +653,13 @@
     }
     
     @media (max-width: 767px) {
-      /* 모바일에서도 일반 컨트롤 표시 */
+      /* 모바일에서 데스크톱 컨트롤 숨기기 */
       .controls {
+        display: none !important;
+      }
+      
+      /* 모바일에서 스캔 컨트롤은 표시 */
+      .scan-controls {
         display: grid;
       }
       
@@ -677,6 +690,10 @@
     
     @media (min-width: 768px) {
       .mobile-controls {
+        display: none;
+      }
+      
+      .scan-controls {
         display: none;
       }
     }
@@ -1079,11 +1096,6 @@
         min-height: 250px;
       }
 
-      .controls {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-xs);
-      }
-
       .camera-grid-container {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-xs);
@@ -1334,22 +1346,27 @@
       }
 
       .controls {
+        display: grid;
+      }
+
+      .scan-controls {
         display: none;
       }
 
-      /* PC 전용 스캔 버튼 */
+      /* PC 전용 스캔 버튼 - 너비 20%로 설정 */
       .pc-scan-buttons {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-sm);
-        width: 100%;
+        width: 20%;
+        margin-left: auto;
       }
 
       .pc-scan-buttons .btn {
         flex: 1;
         width: 100%;
-        font-size: 1.125rem;
-        padding: 0 var(--spacing-lg);
+        font-size: 1rem;
+        padding: 0 var(--spacing-md);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -1447,7 +1464,7 @@
         <!-- 카메라 뷰어 -->
         <div class="camera-main-section">
           <div id="reader" class="empty"></div>
-          <div class="controls">
+          <div class="scan-controls">
             <button id="startBtn" class="btn btn-primary">🎯 스캔 시작</button>
             <button id="stopBtn" class="btn btn-warning" style="display: none;">⏹️ 스캔 중지</button>
           </div>
